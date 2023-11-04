@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306");
+        dataSource.setUsername("root");
+        dataSource.setPassword("123456");
+    -->
+
+
+    <!--配置数据源-->
+    <bean id="druidDataSource"
+          name="DruidDataSource"
+          class="com.alibaba.druid.pool.DruidDataSource"
+          lazy-init="true">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/company"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!--
+        Class<?> aClass = Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn =
+                DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/company",
+                        "root",
+                        "123456"
+                );
+    -->
+    <bean id="clazz" class="java.lang.Class" factory-method="forName" lazy-init="true">
+        <constructor-arg name="className" value="com.mysql.cj.jdbc.Driver"/>
+    </bean>
+
+    <!--
+        <bean id="connection" class="java.sql.DriverManager" factory-method="getConnection" scope="prototype">
+            <constructor-arg name="url" value="jdbc:mysql://localhost:3306/company"/>
+            <constructor-arg name="user" value="root"/>
+            <constructor-arg name="password" value="123456"/>
+        </bean>
+    -->
+
+    <!--
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//类似实例工厂
+        Date parse = sdf.parse("2023-11-2 12:00:00");//类似实例工厂方法
+    -->
+    <bean id="sdf" class="java.text.SimpleDateFormat" lazy-init="true">
+        <constructor-arg name="pattern" value="yyyy-MM-dd HH:mm:ss"/>
+    </bean>
+    <bean id="date" factory-bean="sdf" factory-method="parse" lazy-init="true">
+        <constructor-arg name="source" value="2023-11-2 12:00:00"/>
+    </bean>
+
+
+    <!--接下来要配置Mybatis-->
+    <!--
+        //静态工厂方式
+        InputStream resource = Resources.getResourceAsStream("mybatis-config.xml");
+    -->
+    <bean id="resource"
+          class="org.apache.ibatis.io.Resources"
+          factory-method="getResourceAsStream"
+          lazy-init="true">
+        <constructor-arg name="resource" value="mybatis-config.xml"/>
+    </bean>
+    <!--
+        //无参构造实例化
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+    -->
+    <bean id="builder"
+          class="org.apache.ibatis.session.SqlSessionFactoryBuilder"
+          lazy-init="true"/>
+    <!--
+        //实例工厂方法
+        SqlSessionFactory factory = builder.build(resource);
+        SqlSession session = factory.openSession();
+        UserMapper userMapper = session.getMapper(UserMapper.class);
+    -->
+    <bean id="factory"
+          factory-bean="builder"
+          factory-method="build"
+          lazy-init="true">
+        <constructor-arg name="inputStream" ref="resource"/>
+    </bean>
+
+    <bean id="sqlSession"
+          factory-bean="factory"
+          factory-method="openSession"
+          lazy-init="true"
+          destroy-method="close"/>
+
+    <bean id="userMapperClazz"
+          class="java.lang.Class"
+          factory-method="forName"
+          lazy-init="true">
+        <constructor-arg
+                name="className"
+                value="com.harvey.mapper.UserMapper"/>
+    </bean>
+
+    <bean id="userMapper"
+          factory-bean="sqlSession"
+          factory-method="getMapper"
+          lazy-init="true">
+        <constructor-arg name="type" ref="userMapperClazz"/>
+    </bean>
+</beans>

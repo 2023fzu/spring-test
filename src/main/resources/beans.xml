@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userService"
+          class="com.harvey.Impl.UserServiceImpl"
+          autowire="byName"
+          destroy-method="destroy114514"
+          init-method="init114514"/>
+
+    <bean id="userDao"
+          class="com.harvey.Impl.UserDaoImpl"
+    />
+    <bean id="user" class="com.harvey.pojo.User"></bean>
+
+<!--        <bean id="myBeanFactory" class="com.harvey.factory.MyBeanFactory"/>-->
+    <!--
+        不用写id,
+        Spring检测到就会Bean存储信息,
+        一反射就会发现他实现了BeanFactoryPostProcessor
+        然后就会执行
+    -->
+    <!--        <bean class="com.harvey.processor.FixMyBeanFactory"/>-->
+    <!--        <bean class="com.harvey.processor.RegisterMyBean"/>-->
+
+    <!--            这一条交给MyComponent了-->
+    <!--            <bean class="com.harvey.processor.FixMyBean"/>-->
+            <bean class="com.harvey.utils.MyComponentUtil" />
+    <!--        <bean class="com.harvey.processor.TimeLogBeanProcessor"/>-->
+</beans>
+
