@@ -2,7 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
     <bean id="dataSource"
           class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
@@ -10,12 +9,21 @@
         <property name="username" value="root"/>
         <property name="password" value="123456"/>
     </bean>
-    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:com/harvey/mapper/*.xml"/>
+    </bean>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.harvey.mapper"/>
+
+        <property name="sqlSessionTemplateBeanName" value="sqlSession"/>
     </bean>
+<!--    <property name="markerInterface" value="com.harvey.mapper.UserMapper"/>-->
+
     <bean name="userMapperImpl" class="com.harvey.Impl.UserShow">
         <property name="userMapper" ref="userMapper"/>
     </bean>
