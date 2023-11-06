@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:harvey="http://www.harvey.com/spring/handler"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.harvey.com/spring/handler
+    http://www.harvey.com/spring/harveyAnnotation.xsd">
+
+    <!--使用之定义命名空间的标签-->
+    <harvey:annotation-driven/>
+
+    <bean id="user" class="com.harvey.pojo.User"/>
+</beans>

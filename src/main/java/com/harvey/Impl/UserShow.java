@@ -1,6 +1,7 @@
 package com.harvey.Impl;
 
 import com.harvey.mapper.UserMapper;
+import com.harvey.pojo.User;
 
 /**
  * @author : HarveyBlocks
@@ -17,6 +18,8 @@ public class UserShow {
         this.userMapper = userMapper;
     }
     public void show(){
-        System.out.println(userMapper.selectAll());
+        for(User user:userMapper.findAll()){
+            System.out.println(user);
+        }
     }
 }

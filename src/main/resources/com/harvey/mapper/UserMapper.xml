@@ -6,6 +6,9 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.harvey.mapper.UserMapper"><!--名字写代理接口-->
+
+
+
     <resultMap id="UserMap" type="com.harvey.pojo.User">
         <result column="name" property="name"/>
         <result column="id" property="id"/>
@@ -13,131 +16,14 @@
         <result column="gender" property="gender"/>
     </resultMap>
 
-    <select id ="selectById2" parameterType="Integer" resultMap="UserMap">
+    <select id ="selectById2" parameterType="Integer" resultType="User">
         <!--查询结果应该不包含ID-->
         select name, age, gender
         from user where id = #{id};
     </select>
-
-    <update id="update">
-        update user
-        <set>
-            <!--↓这里用and而不是&&-->
-            <if test="name!=null and name!= '' ">
-                name = #{name},
-            </if>
-            <if test="gender!=null">
-                gender = #{gender},
-            </if>
-            <if test="age!=null">
-                age = #{age},
-            </if>
-        </set>
-        where
-            id=#{id}
-        ;
-
-    </update>
-
-    <delete id="delById">
-        delete from user where
-        id = #{id}
-    </delete>
-
-    <delete id="delByIds">
-        delete from user where
-        id in
-        <foreach
-                collection="array"
-                item="id"
-                separator=","
-                open="("
-                close=")">
-            <!--
-                这些参数是给foreach的输出值添砖加瓦的
-                也可以不屑open="(" close=")",在外面手动打()即可
-            -->
-            #{id}
-        </foreach>
-        ;
-    </delete>
-    <!--
-        <select id="selectByCondition" resultMap="UserMap">
-            <![CDATA[
-                select * from user
-                where
-                    status = #{status}
-                    and name like #{name}
-                    and age > #{age};
-            ]]>
-        </select>
-    -->
-    <select id="selectByConditionSingle" resultMap="UserMap">
-            select * from user
-        <where>
-            <choose>
-                <when test="status != null">
-                    status = #{status}
-                </when>
-                <when test="name != null">
-                    name like #{name}
-                </when>
-                <!--
-                <when test="userName != null">
-                    user_name = #{userName}
-                </when>
-                -->
-                <when test="age != null">
-                    age &gt; #{age}
-                </when>
-
-            </choose>
-            <!--<where>好像是专门用来针对不正常参数查询的-->
-        </where>
-    </select>
-
-
-
-    <select id="selectByCondition" resultMap="UserMap">
-
-        select * from user
-            <where>
-                <!--↓这里用and而不是&&-->
-                <if test="name!=null and name!= '' ">
-                    and name like #{name}
-                </if>
-               <!--
-                 这里的语句都是接字符串
-                -->
-                <if test="age!=null">
-                    and age &gt; #{age};
-                </if>
-            </where>
-
-    </select>
-
-
-
-
     <!--id是这一句命令的唯一标识,不能重复-->
-    <select id="selectAll" resultType="User"><!--起了别名之后就方便了-->
+    <select id="findAll" resultType="com.harvey.pojo.User"><!--起了别名之后就方便了-->
         select * from user ;
     </select>
-
-
-
-    <select id="sortBy" resultType="User">
-        select * from user order by #{columns};
-    </select>
-
-
-
-    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
-        <!--id不应该让用户来写-->
-        insert into user( name, age, gender)
-        values( #{name},#{age},#{gender});
-    </insert>
-
-
 
 </mapper>

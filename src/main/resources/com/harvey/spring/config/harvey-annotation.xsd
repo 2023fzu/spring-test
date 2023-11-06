@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://www.harvey.com/spring/handler"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.harvey.com/spring/handler">
+
+    <xsd:element name="annotation-driven"/>
+</xsd:schema>

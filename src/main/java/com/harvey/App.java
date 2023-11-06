@@ -2,6 +2,7 @@ package com.harvey;
 
 
 import com.harvey.Impl.UserServiceImpl;
+import com.harvey.Impl.UserShow;
 import com.harvey.pojo.User;
 import com.harvey.processor.FixMyBean;
 import com.harvey.service.UserService;
@@ -22,11 +23,14 @@ public class App {
 
     public static void main(String[] args) {
         try (ClassPathXmlApplicationContext applicationContext =
-                     new ClassPathXmlApplicationContext("beans.xml")){
-            Log.info(applicationContext.getBean(FixMyBean.class));
-            //TestLogger.info(userDao.isFlag());
-        }catch (Exception e){
-            Log.error(e.getMessage());
+                     new ClassPathXmlApplicationContext(
+                             "mybatisBean.xml")
+        ) {//https://github.com/2023fzu/spring-test
+
+            UserShow bean =
+                    applicationContext
+                            .getBean(UserShow.class);
+            bean.show();
         }
 
     }

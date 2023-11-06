@@ -28,7 +28,12 @@ public class ApplicationContextTest {
     }
     @Test
     public void test3(){
-
+        try (ClassPathXmlApplicationContext applicationContext =
+                     new ClassPathXmlApplicationContext("MyBean.xml")){
+            UserService userService =
+                    (UserService) applicationContext.getBean("userService");
+            TestLogger.info(userService);
+        }
     }
 
 }

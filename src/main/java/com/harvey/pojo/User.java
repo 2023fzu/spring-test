@@ -3,10 +3,8 @@ package com.harvey.pojo;
 import java.util.Objects;
 
 /**
- * @author : HarveyBlocks
- * @version : 1.0
- * @className : User
- * @date : 2023/11/02 13:32
+ * @author HarveyBlocks
+ * @date 2023/10/15 19:17
  **/
 public class User {
     private int id              ;

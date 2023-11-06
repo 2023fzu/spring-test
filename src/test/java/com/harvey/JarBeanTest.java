@@ -88,7 +88,7 @@ public class JarBeanTest {
                 UserMapper.class);
 
 
-        TestLogger.info(userMapper.selectAll());
+        TestLogger.info(userMapper.findAll());
 
         TestLogger.info("================================");
 
@@ -98,7 +98,7 @@ public class JarBeanTest {
         ) {
             UserMapper userMapper1 = (UserMapper)
                     applicationContext.getBean("userMapper");
-            TestLogger.info(userMapper1.selectAll());
+            TestLogger.info(userMapper1.findAll());
         }
     }
 }

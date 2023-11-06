@@ -2,6 +2,8 @@ package com.harvey;
 
 import com.harvey.mapper.UserMapper;
 import com.harvey.Impl.UserShow;
+import com.harvey.pojo.User;
+import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -26,15 +28,27 @@ public class MybatisTest {
         }
     }
     @Test
+    public void test1() {
+        try (ClassPathXmlApplicationContext applicationContext =
+                     new ClassPathXmlApplicationContext(
+                             "MyBean.xml")
+        ) {
+            User bean =(User)
+                    applicationContext
+                            .getBean("user");
+            System.out.println(bean);
+        }
+    }
+    @Test
     public void test2() {
         try (ClassPathXmlApplicationContext applicationContext =
                      new ClassPathXmlApplicationContext(
                              "beans.xml")
         ) {
 
-            UserShow bean =
+            User bean =(User)
                     applicationContext
-                            .getBean(UserShow.class);
+                            .getBean("user");
             System.out.println(bean);
         }
     }
