@@ -19,7 +19,7 @@ public class MybatisTest {
         try (ClassPathXmlApplicationContext applicationContext =
                      new ClassPathXmlApplicationContext(
                              "mybatisBean.xml")
-        ) {//https://github.com/2023fzu/spring-test
+        ) {
 
             UserShow bean =
                     applicationContext
